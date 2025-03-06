@@ -1,19 +1,17 @@
 ﻿#include <stdio.h>
 
 int main() {
-    int a, b;  
-
-    
-    printf("Nhap hai so nguyen a va b: ");
-    scanf_s("%d %d", &a, &b);
-
-  
-    if (a > b) {
-        printf("Số lớn nhất là: %d\n", a);
+    float diemtb;
+    printf("vui long nhap diem tb: ");
+    scanf_s("%f", &diemtb);
+    if (diemtb >= 8.0) {
+        printf("hoc sinh gioi\n");
+    }
+    else if (diemtb < 8.0 && diemtb >= 6.5) {
+        printf("hoc sinh kha\n");
     }
     else {
-        printf("Số lớn nhất là: %d\n", b);
+        printf("hoc sinh kem");
     }
-
     return 0;
 }
