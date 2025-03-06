@@ -7,8 +7,11 @@ int main() {
     if (diemtb >= 8.0) {
         printf("hoc sinh gioi\n");
     }
-    else if (diemtb < 8.0 && diemtb >= 6.5) {
+    else if ( diemtb >= 6.5) {
         printf("hoc sinh kha\n");
+    }
+    else if (diemtb >= 5.0) {
+        printf("hoc sinh trung binh\n");
     }
     else {
         printf("hoc sinh kem");
