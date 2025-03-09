@@ -3,16 +3,16 @@
 
 int main()
 {
-	int a;
+	int n;
 	printf("vui long nhap so can kiem tra: \n");
-	scanf_s("%d", &a) ;
-	if (a > 0)
+	scanf_s("%d", &n) ;
+	if ((n%2)==0)
 	{
-		printf("day la so duong \n");
+		printf("day la so chan \n");
 	}
-	else if(a<0)
+	else if((n%2)!=0)
 	{
-		printf("day la so am \n");
+		printf("day la so le \n");
 	}
 	else
 	{
