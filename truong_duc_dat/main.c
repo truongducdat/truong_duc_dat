@@ -1,19 +1,45 @@
 ﻿#include <stdio.h>
+#include <math.h>
 
 int main() {
-    int a, b, c, max;
-    printf("nhap so nguyen a,b,c lan luot: ");
-    scanf_s("%d %d %d", &a, &b, &c);
-
-    max = a;
-    if (b > max)
+    float a, b, c, delta, x1, x2;
+    printf("Nhap he so a, b, c: ");
+    scanf_s("%f %f %f", &a, &b, &c);
+    if (a == 0)
     {
-        max = b;
+        if (b == 0)
+        {
+            if (c == 0)
+            {
+                printf("phuong trinh vo so nghiem\n");
+            }
+            else
+            {
+                printf("phuong trinh vo nghiem\n");
+            }
+        }
+        else
+        {
+            printf("phuong trinh bac nhat, nghiem x= %.3f\n", -c / b);
+        }
     }
-    if (c > max) {
-        max = c;
+    else {
+        delta = b * b - 4 * a * c;
+        if (delta > 0) {
+            x1 = (-b + sqrt(delta)) / 2 * a;
+            x2 = (-b - sqrt(delta)) / 2 * a;
+            printf("phuong trinh co 2 nghiem phan biet\n");
+            printf("nghiem x1 la: %.2f\n",x1);
+            printf("nghiem x2 la: %.2f\n",x2);
+        }
+        else if (delta == 0)
+        {
+            x1 = -b / 2 * a;
+            printf("phuong trinh co nghiem kep x1, x2 = %.2f\n", x1);
+        }
+        else {
+            printf("phuong trinh vo nghiem");
+        }
     }
-    printf("Số lớn nhất trong ba số là: %d\n", max);
-
     return 0;
 }
