@@ -1,20 +1,23 @@
 ﻿#include <stdio.h>
-#include<math.h>
+
 int main() {
-    int n, i;
-    long long giai_thua = 1;
+    int so, dem = 0;
 
-    printf("Nhap so tu nhien n: ");
-    scanf_s("%d", &n);
+    while (1) {
+        printf("Nhap so: ");
+        scanf_s("%d", &so);
 
-    if (n < 0) {
-        printf("Khong the tinh giai thua cua so am.\n");
-    }
-    else {
-        for (i = 1; i <= n; i++) {
-            giai_thua *= i;
+        if (so == 0) {
+            printf("Dung chuong trinh.\n");
+            break;
         }
-        printf("Giai thua cua %d la: %lld\n", n, giai_thua);
+
+        if (so > 5) {
+            printf("Nhap sai qua 5. Thoat chuong trinh.\n");
+            break;
+        }
+
+        dem++;
     }
 
     return 0;
