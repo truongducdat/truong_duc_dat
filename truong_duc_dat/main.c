@@ -1,23 +1,14 @@
 ﻿#include <stdio.h>
 
 int main() {
-    int so, dem = 0;
+    int i, j;
 
-    while (1) {
-        printf("Nhap so: ");
-        scanf_s("%d", &so);
-
-        if (so == 0) {
-            printf("Dung chuong trinh.\n");
-            break;
+    for (j = 2; j <= 9; j++) { 
+        printf("Bang cuu chuong %d:\n", j);
+        for (i = 1; i <= 9; i++) {
+            printf("%d x %d = %d\n", j, i, j * i);
         }
-
-        if (so > 5) {
-            printf("Nhap sai qua 5. Thoat chuong trinh.\n");
-            break;
-        }
-
-        dem++;
+        printf("\n"); 
     }
 
     return 0;
