@@ -1,29 +1,17 @@
 ﻿#include <stdio.h>
-#include <math.h>
-
-double f(double x) {
-    return pow(x, 2); 
-}
 
 int main() {
-    int a, b, n = 1000; 
-    double h, tong, x, tich_phan;
+    int arr[10];
+    int total = 0;
+    printf("nhap gia tri cho 10 doi tuong:\n");
+    for (int i = 0; i < 10; i++)
+    {
+        printf("Nhap gia tri thu %d: ", i + 1);
+        scanf_s("%d", &arr[i]);
+        total += arr[i];
 
-    printf("Nhap a: ");
-    scanf_s("%d", &a);
-    printf("Nhap b: ");
-    scanf_s("%d", &b);
-
-    h = (double)(b - a) / n;
-    tong = f(a) + f(b);
-
-    for (int i = 1; i < n; i++) {
-        x = a + i * h;
-        tong += 2 * f(x);
+        
     }
-
-    tich_phan = h * tong / 2;
-    printf("Tich phan cua f(x) = x^2 tren khoang [%d, %d] la: %.6lf\n", a, b, tich_phan);
-
+    printf("tong gia tri 10 doi tuong: %d\n",total );
     return 0;
 }
