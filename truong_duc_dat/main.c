@@ -1,20 +1,21 @@
 ﻿#include <stdio.h>
 #include <string.h>
 
-int dem_so_ky_tu(const char chuoi[]) {
-	int dem = 0;
-	for (int i = 0; chuoi[i] != '\0'; i++) {
-		if (chuoi[i] == ' ') {
-			dem++;
+void chuyen_chu_hoa(char str_1[])
+{
+	for (int i = 0; str_1[i] != '\0'; i++)
+	{
+		if (str_1[i] >= 'a' && str_1[i] <= 'z')
+		{
+			str_1[i] -= 32;
 		}
 	}
-	return dem;
-
 }
 int main() {
-	char str_1[] = "Hello I am Rataturi";
-	int so_ky_tu = dem_so_ky_tu(str_1);
-	printf("So ky tu space trong chuoi la: %d\n", so_ky_tu);
+	char str_2[] = "hello world";
+	printf("chuoi ky tu truoc khi chuyen: %s\n", str_2);
+	chuyen_chu_hoa(str_2);
+	printf("chuoi ky tu sau khi chuyen: %s\n", str_2);
+
 	return 0;
-	
 }
