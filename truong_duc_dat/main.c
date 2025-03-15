@@ -1,21 +1,27 @@
 ﻿#include <stdio.h>
 #include <ctype.h>
 
-int dem_tu(const char chuoi[]) {
-    int dem = 0;
+void in_hoa_chu_cai_dau(char str[]) {
+    int i = 0;
 
-    for (int i = 0; chuoi[i] != '\0'; i++) {
-        if ((i == 0 || chuoi[i - 1] == ' ') && chuoi[i] != ' ') {
-            dem++;
+   
+    while (str[i] != '\0') {
+     
+        if (i == 0 || str[i - 1] == ' ') {
+            if (str[i] >= 'a' && str[i] <= 'z') {
+                str[i] -= 32; 
+            }
         }
+        i++;
     }
-    return dem;
 }
 
 int main() {
-    char str1[] = "Hello World";
-    int so_tu = dem_tu(str1);
+    char str[] = "hello world";
+    printf("Chuoi ban dau: '%s'\n", str);
 
-    printf("So tu trong chuoi la: %d\n", so_tu);
+    in_hoa_chu_cai_dau(str);
+
+    printf("Chuoi sau khi chuyen: '%s'\n", str);
     return 0;
 }
