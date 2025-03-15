@@ -1,17 +1,18 @@
 ﻿#include <stdio.h>
+#include <string.h>
 
+int dem_so_ky_tu(const char chuoi[]) {
+	int dem = 0;
+	for (int i = 0; chuoi[i] != '\0'; i++) {
+		dem++;
+	}
+	return dem;
+
+}
 int main() {
-    int arr[10];
-    int total = 0;
-    printf("nhap gia tri cho 10 doi tuong:\n");
-    for (int i = 0; i < 10; i++)
-    {
-        printf("Nhap gia tri thu %d: ", i + 1);
-        scanf_s("%d", &arr[i]);
-        total += arr[i];
-
-        
-    }
-    printf("tong gia tri 10 doi tuong: %d\n",total );
-    return 0;
+	char str_1[] = "hello world!";
+	int so_ky_tu = dem_so_ky_tu(str_1);
+	printf("So ky tu trong chuoi la: %d\n", so_ky_tu);
+	return 0;
+	
 }
