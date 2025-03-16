@@ -1,27 +1,27 @@
 ﻿#include <stdio.h>
-#include <ctype.h>
 
-void in_hoa_chu_cai_dau(char str[]) {
-    int i = 0;
+void tim_vi_tri_c(const char str[]) {
+    int found = 0; 
+    printf("Cac vi tri cua ky tu 'c' trong chuoi: ");
 
-   
-    while (str[i] != '\0') {
-     
-        if (i == 0 || str[i - 1] == ' ') {
-            if (str[i] >= 'a' && str[i] <= 'z') {
-                str[i] -= 32; 
-            }
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == 'c') { 
+            printf("%d ", i); 
+            found = 1; 
         }
-        i++;
     }
+
+    if (!found) {
+        printf("Khong tim thay ky tu 'c' trong chuoi.");
+    }
+    printf("\n");
 }
 
 int main() {
-    char str[] = "hello world";
+    char str[] = "chao mung cac ban den voi buoi hoc 5";
     printf("Chuoi ban dau: '%s'\n", str);
 
-    in_hoa_chu_cai_dau(str);
+    tim_vi_tri_c(str);
 
-    printf("Chuoi sau khi chuyen: '%s'\n", str);
     return 0;
 }
