@@ -1,9 +1,21 @@
 ﻿#include <stdio.h>
+#include <math.h>
 
-void inGiaTriLe(int arr[], int n) {
-    printf("Cac gia tri le trong mang la: ");
+int laSoNguyenTo(int n) {
+    if (n < 2) {
+        return 0; 
+    }
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) {
+            return 0; 
+        }
+    }
+    return 1; 
+}
+void inSoNguyenTo(int arr[], int n) {
+    printf("Cac so nguyen to trong mang la: ");
     for (int i = 0; i < n; i++) {
-        if (arr[i] % 2 != 0) { 
+        if (laSoNguyenTo(arr[i])) {
             printf("%d ", arr[i]);
         }
     }
@@ -14,20 +26,18 @@ int main() {
     printf("Nhap so luong phan tu cua mang (toi da 100): ");
     scanf_s("%d", &n);
 
-    
     if (n <= 0 || n > 100) {
         printf("So luong phan tu khong hop le.\n");
         return 1;
     }
 
-    int arr[100]; 
+    int arr[100];
     printf("Nhap cac phan tu cua mang:\n");
     for (int i = 0; i < n; i++) {
         scanf_s("%d", &arr[i]);
     }
 
-   
-    inGiaTriLe(arr, n);
+    inSoNguyenTo(arr, n);
 
     return 0;
 }
