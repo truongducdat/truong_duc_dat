@@ -1,33 +1,44 @@
 ﻿#include <stdio.h>
 
-int tinhTongMang(int arr[], int n) {
-    int tong = 0;
+float tinhTrungBinhCongSoLe(int arr[], int n) {
+    int tong = 0, dem = 0;
     for (int i = 0; i < n; i++) {
-        tong += arr[i];
+        if (arr[i] % 2 != 0) {
+            tong += arr[i];
+            dem++;
+        }
     }
-    return tong;
+
+    if (dem == 0) {
+        return 0; 
+    }
+    else {
+        return (float)tong / dem; 
+    }
 }
 
 int main() {
     int n;
-
-    printf("Nhap so luong phan tu cua mang (toi da 100): ");
+    printf("Nhap so luong phan tu (toi da 100): ");
     scanf_s("%d", &n);
 
-    if (n > 100 || n <= 0) {
+    if (n <= 0 || n > 100) {
         printf("So luong phan tu khong hop le.\n");
         return 1;
     }
 
-    int arr[100]; 
-    printf("Nhap cac phan tu cua mang:\n");
+    int arr[100];
     for (int i = 0; i < n; i++) {
-        printf("Phan tu [%d]: ", i);
         scanf_s("%d", &arr[i]);
     }
 
-    int tong = tinhTongMang(arr, n);
-    printf("Tong cac gia tri trong mang la: %d\n", tong);
+    float tbc = tinhTrungBinhCongSoLe(arr, n);
+    if (tbc == 0) {
+        printf("Khong co so le trong mang\n");
+    }
+    else {
+        printf("Trung binh cong cac so le: %.2f\n", tbc);
+    }
 
     return 0;
 }
