@@ -1,14 +1,14 @@
 ﻿#include <stdio.h>
-#include <math.h>
-
-void inGiaTriLonNhat(int arr[], int n) {
-    int max = arr[0];
-    for (int i = 1; i < n; i++) {
-        if (arr[i] > max) {
-            max = arr[i];
+void sapXepTangDan(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
         }
     }
-    printf("Gia tri lon nhat trong mang la: %d\n", max);
 }
 int main() {
     int n;
@@ -26,7 +26,13 @@ int main() {
         scanf_s("%d", &arr[i]);
     }
 
-    inGiaTriLonNhat(arr, n);
+    sapXepTangDan(arr, n);
+
+    printf("Mang sau khi sap xep tang dan:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
 
     return 0;
 }
