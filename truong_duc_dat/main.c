@@ -1,25 +1,14 @@
 ﻿#include <stdio.h>
 #include <math.h>
 
-int laSoNguyenTo(int n) {
-    if (n < 2) {
-        return 0; 
-    }
-    for (int i = 2; i <= sqrt(n); i++) {
-        if (n % i == 0) {
-            return 0; 
+void inGiaTriLonNhat(int arr[], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
         }
     }
-    return 1; 
-}
-void inSoNguyenTo(int arr[], int n) {
-    printf("Cac so nguyen to trong mang la: ");
-    for (int i = 0; i < n; i++) {
-        if (laSoNguyenTo(arr[i])) {
-            printf("%d ", arr[i]);
-        }
-    }
-    printf("\n");
+    printf("Gia tri lon nhat trong mang la: %d\n", max);
 }
 int main() {
     int n;
@@ -37,7 +26,7 @@ int main() {
         scanf_s("%d", &arr[i]);
     }
 
-    inSoNguyenTo(arr, n);
+    inGiaTriLonNhat(arr, n);
 
     return 0;
 }
