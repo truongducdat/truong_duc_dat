@@ -1,16 +1,24 @@
 ﻿#include <stdio.h>
 
-void thayTheSoAmBang0(int arr[], int n) {
+void inGiaTriLe(int arr[], int n) {
+    printf("Cac gia tri le trong mang la: ");
     for (int i = 0; i < n; i++) {
-        if (arr[i] < 0) {
-            arr[i] = 0;
+        if (arr[i] % 2 != 0) { 
+            printf("%d ", arr[i]);
         }
     }
+    printf("\n");
 }
 int main() {
     int n;
-    printf("Nhap so luong phan tu cua mang: ");
+    printf("Nhap so luong phan tu cua mang (toi da 100): ");
     scanf_s("%d", &n);
+
+    
+    if (n <= 0 || n > 100) {
+        printf("So luong phan tu khong hop le.\n");
+        return 1;
+    }
 
     int arr[100]; 
     printf("Nhap cac phan tu cua mang:\n");
@@ -18,13 +26,8 @@ int main() {
         scanf_s("%d", &arr[i]);
     }
 
-    thayTheSoAmBang0(arr, n);
-
-    printf("Mang sau khi thay the so am bang 0:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
+   
+    inGiaTriLe(arr, n);
 
     return 0;
 }
