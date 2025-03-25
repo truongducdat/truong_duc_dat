@@ -1,38 +1,23 @@
 ﻿#include <stdio.h>
-void sapXepTangDan(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-            }
-        }
-    }
+
+struct phan_so {
+    int tu;  
+    int mau; 
+};
+
+struct phan_so nhan_phan_so(struct phan_so x, struct phan_so y) {
+    struct phan_so ketqua;
+    ketqua.tu = x.tu * y.tu;
+    ketqua.mau = x.mau * y.mau;
+    return ketqua; 
 }
+
 int main() {
-    int n;
-    printf("Nhap so luong phan tu cua mang (toi da 100): ");
-    scanf_s("%d", &n);
+    struct phan_so a = { 2, 3 };  
+    struct phan_so b = { 4, 5 };  
 
-    if (n <= 0 || n > 100) {
-        printf("So luong phan tu khong hop le.\n");
-        return 1;
-    }
+    struct phan_so ketqua = nhan_phan_so(a, b);
 
-    int arr[100];
-    printf("Nhap cac phan tu cua mang:\n");
-    for (int i = 0; i < n; i++) {
-        scanf_s("%d", &arr[i]);
-    }
-
-    sapXepTangDan(arr, n);
-
-    printf("Mang sau khi sap xep tang dan:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
+    printf("Kết quả: %d/%d\n", ketqua.tu, ketqua.mau); 
 
     return 0;
-}
