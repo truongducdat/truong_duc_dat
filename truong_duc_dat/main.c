@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+﻿#include <stdio.h>[]
 
 typedef struct {
     char ten[50];
@@ -9,37 +9,36 @@ typedef struct {
     int xepLoai; 
 } HocSinh;
 
-float tinh_diem_trung_binh(float diemToan, float diemVan) {
-    return (diemToan + diemVan) / 2; 
+void tinh_diem_TB_xep_loai(HocSinh*mang_hs, int so_luong)
+{
+    for (int i = 0; i < so_luong; i++) {
+        mang_hs[i].diemTrungBinh = (mang_hs[i].diemToan + mang_hs[i].diemVan) / 2;
+        if (mang_hs[i].diemTrungBinh >= 8.0) {
+            mang_hs[i].xepLoai = 0;
+        }
+        else if (mang_hs[i].diemTrungBinh >= 6.5)
+        {
+            mang_hs[i].xepLoai = 1;
+        }
+        else if (mang_hs[i].diemTrungBinh >= 5.0)
+        {
+            mang_hs[i].xepLoai = 2;
+        }
+        else{
+            mang_hs[i].xepLoai = 3;
+        }
+    }
+    
+
+}
+HocSinh tim_dtb_hs_cao_nhat(HocSinh* mang_hs, int soluong) {
+    HocSinh max = { 0 };
+    for(int i = 1; )
 }
 
-int tinh_xep_loai(float diemTrungBinh) {
-    if (diemTrungBinh >= 8.0)
-        return 0; 
-    else if (diemTrungBinh >= 6.5)
-        return 1; 
-    else if (diemTrungBinh >= 5.0)
-        return 2; 
-    else
-        return 3; 
-}
 
-void hien_thi_thong_tin(HocSinh hs) {
-    printf("Tên: %s\n", hs.ten);
-    printf("Tuổi: %d\n", hs.tuoi);
-    printf("Điểm Toán: %.2f\n", hs.diemToan);
-    printf("Điểm Văn: %.2f\n", hs.diemVan);
-    printf("Điểm Trung Bình: %.2f\n", hs.diemTrungBinh);
-    printf("Xếp Loại: %d\n", hs.xepLoai);
-}
 
-int main() {
-    HocSinh hs = { "Nguyen Van A", 16, 8.5, 7.0, 0, 0 };
 
-    hs.diemTrungBinh = tinh_diem_trung_binh(hs.diemToan, hs.diemVan);
-    hs.xepLoai = tinh_xep_loai(hs.diemTrungBinh);
-
-    hien_thi_thong_tin(hs);
-
-    return 0;
+void main() {
+   
 }
