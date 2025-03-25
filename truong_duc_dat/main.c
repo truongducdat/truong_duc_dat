@@ -1,23 +1,34 @@
 ﻿#include <stdio.h>
 
-struct phan_so {
-    int tu;  
-    int mau; 
-};
+typedef struct {
+    int tu;
+    int mau;
+} PhanSo;
 
-struct phan_so nhan_phan_so(struct phan_so x, struct phan_so y) {
-    struct phan_so ketqua;
+PhanSo nhan_phan_so(PhanSo x, PhanSo y) {
+    PhanSo ketqua;
     ketqua.tu = x.tu * y.tu;
     ketqua.mau = x.mau * y.mau;
-    return ketqua; 
+    return ketqua;
 }
-
+PhanSo Tim_phan_so_lon_nhat(PhanSo mang[], int soluong) {
+    PhanSo max = mang[0];//neu phan tu dau tien lon nhat
+    for (int i = 1; i < soluong; i++) {
+        if (max.tu * mang[i].mau < mang[i].tu * max.mau) {
+            max = mang[i];
+        }
+       
+    }
+    return max;
+}
 int main() {
-    struct phan_so a = { 2, 3 };  
-    struct phan_so b = { 4, 5 };  
+    PhanSo mang[] = { {2, 3}, {4, 5}, {5, 6}, {7, 8} };
+    int soluong = sizeof(mang) / sizeof(mang[0]);
 
-    struct phan_so ketqua = nhan_phan_so(a, b);
+    PhanSo max = Tim_phan_so_lon_nhat(mang, soluong);
 
-    printf("Kết quả: %d/%d\n", ketqua.tu, ketqua.mau); 
+    printf("Phân số lớn nhất: %d/%d\n", max.tu, max.mau);
 
     return 0;
+
+}
