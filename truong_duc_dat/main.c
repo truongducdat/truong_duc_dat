@@ -1,34 +1,24 @@
 ﻿#include <stdio.h>
 
 typedef struct {
-    int tu;
-    int mau;
-} PhanSo;
-
-PhanSo nhan_phan_so(PhanSo x, PhanSo y) {
-    PhanSo ketqua;
-    ketqua.tu = x.tu * y.tu;
-    ketqua.mau = x.mau * y.mau;
-    return ketqua;
-}
-PhanSo Tim_phan_so_lon_nhat(PhanSo mang[], int soluong) {
-    PhanSo max = mang[0];//neu phan tu dau tien lon nhat
-    for (int i = 1; i < soluong; i++) {
-        if (max.tu * mang[i].mau < mang[i].tu * max.mau) {
-            max = mang[i];
-        }
-       
-    }
-    return max;
-}
+    char ten[50];
+    int tuoi;
+    float diem_toan;
+    float diem_van;
+    float diem_tb;
+    int xep_loai;
+}Hoc_sinh;
 int main() {
-    PhanSo mang[] = { {2, 3}, {4, 5}, {5, 6}, {7, 8} };
-    int soluong = sizeof(mang) / sizeof(mang[0]);
+    Hoc_sinh hs = { "Nguyen Van A", 16, 8.5, 7.0, 7.75, 1 };
 
-    PhanSo max = Tim_phan_so_lon_nhat(mang, soluong);
-
-    printf("Phân số lớn nhất: %d/%d\n", max.tu, max.mau);
+    printf("Tên: %s\n", hs.ten);
+    printf("Tuổi: %d\n", hs.tuoi);
+    printf("Điểm Toán: %.2f\n", hs.diem_toan);
+    printf("Điểm Văn: %.2f\n", hs.diem_van);
+    printf("Điểm Trung Bình: %.2f\n", hs.diem_tb);
+    printf("Xếp Loại: %d\n", hs.xep_loai);
 
     return 0;
+
 
 }
