@@ -1,44 +1,104 @@
 ﻿#include <stdio.h>
-
+//xây dựng kiểu dữ liệu mới để mô tả đổi tượng là phân số
 typedef struct {
-    char ten[50];
-    int tuoi;
-    float diemToan;
-    float diemVan;
-    float diemTrungBinh;
-    int xepLoai; 
-} HocSinh;
+    int tu;
+    int mau;
+} phanso;
+//viết hàm nhân 2 phân số
+phanso Nhan_phan_so(phanso ps_x,phanso ps_y) {
+    phanso kq;
+    kq.tu = ps_x.tu * ps_y.tu;
+    kq.mau = ps_x.mau * ps_y.mau;
+    return kq;
+}
+//viêt hàm chia 2 phân số
+phanso chia_phan_so(phanso ps_x, phanso ps_y) {
+    phanso kq;
+    kq.tu = ps_x.tu * ps_y.mau;
+    kq.mau = ps_x.mau * ps_y.mau;
+    return kq;
+}
+//viết hàm cộng 2 phân số
+phanso cong_phan_so(phanso ps_x, phanso ps_y) {
+    phanso kq;
 
-void tinh_diem_TB_xep_loai(HocSinh*mang_hs, int so_luong)
-{
-    for (int i = 0; i < so_luong; i++) {
-        mang_hs[i].diemTrungBinh = (mang_hs[i].diemToan + mang_hs[i].diemVan) / 2;
-        if (mang_hs[i].diemTrungBinh >= 8.0) {
-            mang_hs[i].xepLoai = 0;
-        }
-        else if (mang_hs[i].diemTrungBinh >= 6.5)
-        {
-            mang_hs[i].xepLoai = 1;
-        }
-        else if (mang_hs[i].diemTrungBinh >= 5.0)
-        {
-            mang_hs[i].xepLoai = 2;
-        }
-        else{
-            mang_hs[i].xepLoai = 3;
-        }
+    if (ps_x.mau == ps_y.mau) {
+        kq.tu = ps_x.tu + ps_y.tu;
+        kq.mau = ps_x.mau;
     }
-    
-
+    else
+    {
+        kq.tu = ps_x.tu * ps_y.mau + ps_y.tu * ps_x.mau;
+        kq.mau = ps_x.mau * ps_y.mau;
+    }
+    return kq;
 }
-HocSinh tim_dtb_hs_cao_nhat(HocSinh* mang_hs, int soluong) {
-    HocSinh max = { 0 };
-    for(int i = 1; )
+//viết hàm trừ 2 phần số
+phanso tru_phan_so(phanso ps_x, phanso ps_y) {
+    phanso kq;
+    if (ps_x.mau == ps_y.mau) {
+        kq.tu = ps_x.tu - ps_y.tu;
+        kq.mau = ps_x.mau;
+    }
+    else {
+        kq.tu = ps_x.tu * ps_y.mau - ps_y.tu * ps_x.mau;
+        kq.mau = ps_x.mau * ps_y.mau;
+    }
+    return kq;
+}
+//viết hàm rút gọn 2 phân số
+
+int ucln(int a, int b) {// Hàm tìm ước chung lớn nhất
+    while (b != 0) {
+        int r = a % b;
+        a = b;
+        b = r;
+    }
+    return a;
 }
 
+phanso rut_gon_phan_so(phanso ps) {// Hàm rút gọn phân số
+    int uc = ucln(ps.tu, ps.mau);
+    ps.tu /= uc;
+    ps.mau /= uc;
 
+    // Đưa dấu âm về tử số
+    if (ps.mau < 0) {
+        ps.tu *= -1;
+        ps.mau *= -1;
+    }
 
+    return ps;
+}
+void in_phan_so(phanso ps) {
+    printf("%d/%d\n", ps.tu, ps.mau);
+}
 
 void main() {
-   
+    phanso a = { 4, 6 };  
+    phanso b = { 2, 3 };  
+
+    printf("Phan so A = ");
+    in_phan_so(a);
+
+    printf("Phan so B = ");
+    in_phan_so(b);
+
+    phanso tong = rut_gon_phan_so(cong_phan_so(a, b));
+    printf("A + B = ");
+    in_phan_so(tong);
+
+    phanso hieu = rut_gon_phan_so(tru_phan_so(a, b));
+    printf("A - B = ");
+    in_phan_so(hieu);
+
+    phanso tich = rut_gon_phan_so(Nhan_phan_so(a, b));
+    printf("A * B = ");
+    in_phan_so(tich);
+
+    phanso thuong = rut_gon_phan_so(chia_phan_so(a, b));
+    printf("A / B = ");
+    in_phan_so(thuong);
+
+    return 0;
 }
