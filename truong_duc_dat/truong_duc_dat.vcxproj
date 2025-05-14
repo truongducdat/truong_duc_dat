@@ -128,6 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PhanSo.cpp" />
+    <ClCompile Include="toan.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PhanSo.h" />
+    <ClInclude Include="toan.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

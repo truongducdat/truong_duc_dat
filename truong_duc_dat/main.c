@@ -1,209 +1,109 @@
-﻿#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct node {
-    int value;
-    struct node* previous_node;
-} node_t;
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
 
 typedef struct {
-    node_t* last_node;
-    int len;
-} linked_list_t;
+    char name[50];
+    int age;
+    char gender[5];
+    int score1;
+    int score2;
+    float average;
+} HocSinh;
 
-// 1. Create: tạo ra đối tượng linked list
-//  - input: linked_list_t* - địa chỉ đối tượng linked_list được tạo
-//  - output: void
-void Create(linked_list_t* list) {
-    list->last_node = NULL;
-    list->len = 0;
+// Hàm tính điểm trung bình
+float tinhDiemTB(HocSinh* hs) {
+    return (hs->score1 + hs->score2) / 2.0;
 }
 
-//2. GetLen: lấy số lượng node trong linked lisst
-//- input : linked_list_t * địa chỉ đối tượng linked_list cần GetLen
-//- Output : int
-int GetLen(linked_list_t* list) {
-    return list->len;
-}
-
-//3. Add: thêm một node vào cuối linked_list
-//- Input :
-//    *linked_list_t * -địa chỉ đối tượng linked list.Cái mà chúng ta sẽ add node vào đó
-//    * int - giá trị của node được add vào
-//    - Output : void
-//    - Gợi ý : sử dụng cấp phát động(malloc hoặc calloc) để tạo ra node, và gán previous_node lưu địa chỉ của node trước.
-void Add(linked_list_t* list, int value) {
-    node_t* new_node = (node_t*)malloc(sizeof(node_t));
-    new_node->value = value;
-    new_node->previous_node = list->last_node;
-    list->last_node = new_node;
-    list->len++;
-}
-//4. Insert: chèn node vào lined list ở vị trí index
-//- input :
-//    *linked_list_t * địa của đối tượng linked lisst, mà ta sẽ insert đối tượng vào
-//    * int value : giá trị của node.
-//    * int index : vị trí node được insert vào.
-//    - Output : void
-//    - Gợi ý : giống như add chúng ta cũng cần cấp phát động, và chúng ta cần update lại previous_node của node trước nó
-void Insert(linked_list_t* list, int value, int index) {
-    if (index < 0 || index > list->len) {
-        printf("Chỉ số không hợp lệ.\n");
+// Hàm đọc file CSV và xử lý dữ liệu
+void docFile(char* fileName, HocSinh* dsHocSinh, int* soLuong) {
+    FILE* file = fopen(fileName, "r");
+    if (file == NULL) {
+        printf("Không thể mở file %s\n", fileName);
         return;
     }
 
-    node_t* new_node = (node_t*)malloc(sizeof(node_t));
-    new_node->value = value;
+    char line[100];
+    // Đọc từng dòng của file CSV
+    while (fgets(line, sizeof(line), file)) {
+        HocSinh hs;
+        // Kiểm tra nếu dòng rỗng hoặc không hợp lệ
+        if (strlen(line) < 10) continue;
 
-    if (index == 0) {
-        new_node->previous_node = NULL;
-        if (list->len == 0) {
-            list->last_node = new_node;
-        }
-        else {
-            node_t* current = list->last_node;
-            new_node->previous_node = current;
-            list->last_node = new_node;
-        }
+        // Đọc từng trường trong dòng CSV
+        sscanf(line, "%[^,],%d,%[^,],%d,%d", hs.name, &hs.age, hs.gender, &hs.score1, &hs.score2);
+        // Tính điểm trung bình
+        hs.average = tinhDiemTB(&hs);
+        // Lưu học sinh vào danh sách
+        dsHocSinh[*soLuong] = hs;
+        (*soLuong)++;
     }
-    else {
-        node_t* current = list->last_node;
-        for (int i = 0; i < index - 1; i++) {
-            current = current->previous_node;
-        }
-        new_node->previous_node = current->previous_node;
-        current->previous_node = new_node;
-    }
-    list->len++;
+
+    fclose(file);
 }
 
-//5. Remove: xoá một node ở vị trí cuối cùng trong linked list
-//- input : linked_list_t * địa chỉ của đối tượng linked list, mà ta muốn xoá node ở trong nos
-//- output : void
-//- gợi ý : giải phóng vùng nhớ(sử dụng hàm free) của node cuối cùng.
-void Remove(linked_list_t* list) {
-    if (list->len == 0) {
-        printf("Danh sách rỗng.\n");
+// Hàm sắp xếp danh sách học sinh theo điểm trung bình (giảm dần)
+void sapXep(HocSinh* dsHocSinh, int soLuong) {
+    for (int i = 0; i < soLuong - 1; i++) {
+        for (int j = i + 1; j < soLuong; j++) {
+            if (dsHocSinh[i].average < dsHocSinh[j].average) {
+                // Hoán đổi học sinh i và j
+                HocSinh temp = dsHocSinh[i];
+                dsHocSinh[i] = dsHocSinh[j];
+                dsHocSinh[j] = temp;
+            }
+        }
+    }
+}
+
+// Hàm in danh sách học sinh ra màn hình
+void inDanhSach(HocSinh* dsHocSinh, int soLuong) {
+    for (int i = 0; i < soLuong; i++) {
+        printf("%s (%d) - %s: %.2f\n", dsHocSinh[i].name, dsHocSinh[i].age, dsHocSinh[i].gender, dsHocSinh[i].average);
+    }
+}
+
+// Hàm lưu danh sách học sinh vào file CSV
+void luuDanhSach(char* fileName, HocSinh* dsHocSinh, int soLuong) {
+    FILE* file = fopen(fileName, "w");
+    if (file == NULL) {
+        printf("Không thể lưu file %s\n", fileName);
         return;
     }
 
-    node_t* to_remove = list->last_node;
-    list->last_node = to_remove->previous_node;
-    free(to_remove);
-    list->len--;
-}
-
-//6. RemoveIndex: xoá một node ở vị trí index
-//- Input :
-//    *linked_list_t * : địa chỉ của linked_líst, mà ta muốn xoá node trong nos
-//    * int index : vị trí của node muốn xoá
-void RemoveIndex(linked_list_t* list, int index) {
-    if (index < 0 || index >= list->len) {
-        printf("Chỉ số không hợp lệ.\n");
-        return;
+    for (int i = 0; i < soLuong; i++) {
+        fprintf(file, "%s,%d,%s,%d,%d,%.2f\n", dsHocSinh[i].name, dsHocSinh[i].age, dsHocSinh[i].gender, dsHocSinh[i].score1, dsHocSinh[i].score2, dsHocSinh[i].average);
     }
 
-    node_t* current = list->last_node;
-    if (index == 0) {
-        list->last_node = current->previous_node;
-    }
-    else {
-        for (int i = 0; i < index - 1; i++) {
-            current = current->previous_node;
-        }
-        node_t* to_remove = current->previous_node;
-        current->previous_node = to_remove->previous_node;
-        free(to_remove);
-    }
-    list->len--;
-}
-
-//7. Search: tìm kiếm vị trí của node theo giá trị
-//- Input :
-//    *linked_list_t * : địa chỉ của linked líst mà chúng ta cần tìm kiếm
-//    * int value : giá trị của node mà chúng ta muốn tìm kiếm
-//    - Ouput : int : vị trí của node được tìm thấy, -1 nếu không tìm thấy bất kỳ node vào có giá trị value.
-int Search(linked_list_t* list, int value) {
-    node_t* current = list->last_node;
-    int index = 0;
-    while (current != NULL) {
-        if (current->value == value) {
-            return index;
-        }
-        current = current->previous_node;
-        index++;
-    }
-    return -1; // Không tìm thấy
-}
-
-//8. GetValue: lấy giá trị của node ở vị trí cuối cùng
-//- Input :
-//    *linked_list_t * : địa chỉ của linked list cái mà chúng ta sẽ đi đọc node trong đó.
-//    - Ouput : int : giá trị của node
-int GetValue(linked_list_t* list) {
-    if (list->len == 0) {
-        printf("Danh sách rỗng.\n");
-        return -1;
-    }
-    return list->last_node->value;
-}
-
-//9. GetValueIndex: lấy giá trị của node ở vị trí index
-//- Input :
-//    *linked_list_t * : địa của của linked list cái mà chúng ta sẽ đi đọc giá trị của node ở vị trí index
-//    * int index : vị trí của node chúng ta muốn đọc
-//    - Ouput : int : giá trị của node mà chúng ta đọc được
-int GetValueIndex(linked_list_t* list, int index) {
-    if (index < 0 || index >= list->len) {
-        printf("Chỉ số không hợp lệ.\n");
-        return -1;
-    }
-
-    node_t* current = list->last_node;
-    for (int i = 0; i < index; i++) {
-        current = current->previous_node;
-    }
-    return current->value;
-}
-
-//10. DeleteAll: xoá tất cả node trong linked lisst
-//- Input : linked_list_t * : địa chỉ của linked list cái mà chúng ta muốn xoá hết tất cả node của nos
-//- Output : void
-void DeleteAll(linked_list_t* list) {
-    while (list->len > 0) {
-        Remove(list);
-    }
+    fclose(file);
 }
 
 int main() {
-    linked_list_t list;
-    Create(&list);
+    HocSinh dsHocSinh[100];
+    int soLuong = 0;
+    // Đọc dữ liệu từ file
+    docFile("D:/IMIC ACADEMIC/c_c++/DanhSachHocSinh1.csv", dsHocSinh, &soLuong);
 
-    Add(&list, 10);
-    Add(&list, 20);
-    Add(&list, 30);
-    Add(&list, 40);
+    printf("\nDanh sách học sinh:\n");
+    inDanhSach(dsHocSinh, soLuong);
 
-    printf("Độ dài của danh sách: %d\n", GetLen(&list));
-
-    Insert(&list, 25, 2);
-
-    printf("Giá trị tại chỉ số 2: %d\n", GetValueIndex(&list, 2));
-
-    printf("Đang xóa node cuối cùng...\n");
-    Remove(&list);
-    printf("Độ dài sau khi xóa: %d\n", GetLen(&list));
-
-    int search_result = Search(&list, 25);
-    if (search_result != -1) {
-        printf("Đã tìm thấy giá trị 25 tại chỉ số: %d\n", search_result);
-    }
-    else {
-        printf("Không tìm thấy giá trị 25.\n");
+    // Tính điểm trung bình cao nhất
+    HocSinh* maxHs = &dsHocSinh[0];
+    for (int i = 1; i < soLuong; i++) {
+        if (dsHocSinh[i].average > maxHs->average) {
+            maxHs = &dsHocSinh[i];
+        }
     }
 
-    DeleteAll(&list);
-    printf("Độ dài sau khi xóa tất cả: %d\n", GetLen(&list));
+    printf("\nHọc sinh có điểm trung bình cao nhất:\n");
+    printf("%s (%d) - %s: %.2f\n", maxHs->name, maxHs->age, maxHs->gender, maxHs->average);
+
+    // Sắp xếp danh sách học sinh theo điểm trung bình giảm dần
+    sapXep(dsHocSinh, soLuong);
+
+    // Lưu danh sách học sinh đã sắp xếp vào file mới
+    luuDanhSach("D:/IMIC ACADEMIC/c_c++/DanhSachHocSinhSorted.csv", dsHocSinh, soLuong);
 
     return 0;
 }
