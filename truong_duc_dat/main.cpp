@@ -1,110 +1,99 @@
-﻿#include <stdio.h>
-#include <stdlib.h>
+﻿#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm> // sort
+using namespace std;
 
-class mang {
-public:
-	int* data;
-	int size;
-
-	mang(int num_item);
-	int& operator[](int index);
-	void tang_arr(int n);
-	void giam_arr(int n);
-	~mang();
+enum gioi_tinh {
+    Nam, Nu
 };
 
-// Constructor
-mang::mang(int num_item) {
-	data = (int*)malloc(num_item * sizeof(int));
-	size = num_item;
-}
+// Lớp cha: Thông tin cá nhân
+class thongtincanhan {
+protected:
+    string name;
+    int age;
+    gioi_tinh gioitinh;
 
-// Truy cập phần tử qua []
-int& mang::operator[](int index) {
-	return data[index]; // (nếu cần an toàn hơn thì thêm kiểm tra index ở đây)
-}
+public:
+    void setTen(string t) { name = t; }
+    void setTuoi(int a) { age = a; }
+    void setGioiTinh(gioi_tinh g) { gioitinh = g; }
 
-// Destructor
-mang::~mang() {
-	if (data != NULL) {
-		free(data);
-		data = NULL;
-	}
-}
+    string getTen() const { return name; }
+    int getTuoi() const { return age; }
+    gioi_tinh getGioiTinh() const { return gioitinh; }
 
-// Tính tổng các phần tử
-int tong(mang& a) {
-	int sum = 0;
-	for (int i = 0; i < a.size; i++) {
-		sum += a[i];
-	}
-	return sum;
-}
+    virtual void xuatThongTin() const {
+        cout << "Ten: " << name << endl;
+        cout << "Tuoi: " << age << endl;
+        cout << "Gioi tinh: " << (gioitinh == Nam ? "Nam" : "Nu") << endl;
+    }
 
-// Tăng số phần tử của mảng
-void mang::tang_arr(int n) {
-	int* new_data = (int*)malloc((size + n) * sizeof(int));
-	for (int i = 0; i < size + n; i++) {
-		if (i < size)
-			new_data[i] = data[i];
-		else
-			new_data[i] = 0;
-	}
-	if (data != NULL) {
-		free(data);
-		data = NULL;
-	}
-	data = new_data;
-	size += n;
-}
+    virtual ~thongtincanhan() {}
+};
 
-// Giảm số phần tử của mảng
-void mang::giam_arr(int n) {
-	if (n >= size) {
-		printf("Khong du so phan tu de xoa\n");
-		return;
-	}
-	int* new_data = (int*)malloc((size - n) * sizeof(int));
-	for (int i = 0; i < size - n; i++) {
-		new_data[i] = data[i];
-	}
-	if (data != NULL) {
-		free(data);
-		data = NULL;
-	}
-	data = new_data;
-	size -= n;
-}
+// Lớp con: Học sinh
+class HocSinh : public thongtincanhan {
+private:
+    string lop;
+    double diemTB;
 
-// Hàm main
+public:
+    void setLop(string l) { lop = l; }
+    void setDiemTB(double d) { diemTB = d; }
+
+    string getLop() const { return lop; }
+    double getDiemTB() const { return diemTB; }
+
+    void xuatThongTin() const override {
+        cout << "== Hoc sinh ==" << endl;
+        thongtincanhan::xuatThongTin();
+        cout << "Lop: " << lop << endl;
+        cout << "Diem TB: " << diemTB << endl;
+    }
+};
+
+// Main
 int main() {
-	mang arr(3);
-	arr[0] = 1;
-	arr[1] = 2;
-	arr[2] = 3;
+    vector<HocSinh> danhSach;
 
-	mang arr2(4);
-	arr2[0] = 6;
-	arr2[1] = 7;
-	arr2[2] = 8;
-	arr2[3] = 9;
+    // Thêm dữ liệu mẫu
+    HocSinh hs1;
+    hs1.setTen("Nguyen Van A");
+    hs1.setTuoi(17);
+    hs1.setGioiTinh(Nam);
+    hs1.setLop("12A1");
+    hs1.setDiemTB(8.6);
+    danhSach.push_back(hs1);
 
-	int sum = tong(arr);
-	printf("Tong mang arr: %d\n", sum);
+    HocSinh hs2;
+    hs2.setTen("Tran Thi B");
+    hs2.setTuoi(16);
+    hs2.setGioiTinh(Nu);
+    hs2.setLop("11B2");
+    hs2.setDiemTB(9.1);
+    danhSach.push_back(hs2);
 
-	arr.tang_arr(2);
-	printf("Mang arr sau khi tang:\n");
-	for (int i = 0; i < arr.size; i++) {
-		printf("%d ", arr[i]);
-	}
-	printf("\n");
+    HocSinh hs3;
+    hs3.setTen("Le Van C");
+    hs3.setTuoi(18);
+    hs3.setGioiTinh(Nam);
+    hs3.setLop("12C3");
+    hs3.setDiemTB(7.5);
+    danhSach.push_back(hs3);
 
-	arr2.giam_arr(2);
-	printf("Mang arr2 sau khi giam:\n");
-	for (int i = 0; i < arr2.size; i++) {
-		printf("%d ", arr2[i]);
-	}
-	printf("\n");
+    // Sắp xếp theo điểm trung bình giảm dần
+    sort(danhSach.begin(), danhSach.end(), [](const HocSinh& a, const HocSinh& b) {
+        return a.getDiemTB() > b.getDiemTB();
+        });
 
-	return 0;
+    // Xuất danh sách sau khi sắp xếp
+    cout << "\n=== Danh sach hoc sinh sap xep theo diem TB giam dan ===\n";
+    for (const HocSinh& hs : danhSach) {
+        hs.xuatThongTin();
+        cout << "----------------------" << endl;
+    }
+
+    return 0;
 }
