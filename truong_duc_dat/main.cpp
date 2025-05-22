@@ -95,7 +95,7 @@ int main() {
     sort(danhSach.begin(), danhSach.end(), [](const HocSinh& a, const HocSinh& b) {
         return a.getDiemTB() > b.getDiemTB();
         });
-
+    
     // Xuất danh sách
     cout << "\n=== Danh sach hoc sinh theo diem TB giam dan ===\n";
     for (const HocSinh& hs : danhSach) {
