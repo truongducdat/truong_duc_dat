@@ -1,17 +1,42 @@
-﻿#include<stdio.h>
-#include<stdint.h> //thu vien dung de goi kieu du lieu uint16_t
-void in_bit_cao_thap(uint16_t so) {
-	uint8_t bit_cao = (so >> 8) & (0xFF);
-	uint8_t bit_thap = so & (0xFF);
+﻿#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
 
-	printf("8 Bit cao: %u (0x%02X)\n", bit_cao, bit_cao);
-	printf("8 Bit thap(Byte thap): %u (0x%02X)\n", bit_thap, bit_thap);
+typedef struct {
+	char light;
+	char fan;
+	char motor;
+} smartHome_t;
+
+smartHome_t pair_data(const char* data) {
+	smartHome_t thietbi = { '0','0','0' }; // default: off
+											//// strstr: dùng để tìm một chuỗi con trong một chuỗi lớn hơn			
+					
+	const char* light_position = strstr(data, "\"light\"");
+	if (light_position && strstr(light_position, "\"on\""))
+		thietbi.light = '1';
+
+	const char* fan_position = strstr(data, "\"fan\"");
+	if (fan_position && strstr(fan_position, "\"on\""))
+		thietbi.fan = '1';
+
+	const char* motor_position = strstr(data, "\"motor\"");
+	if (motor_position && strstr(motor_position, "\"on\""))
+		thietbi.motor = '1';
+
+	return thietbi;
 }
-void main() {
-	uint16_t a;
-	printf("Nhap so nguyen 16 bit(0-65535): ");
-	scanf_s("%hu", &a);//%hu để đọc uint16_t
 
-	in_bit_cao_thap(a);
+int main()
+{
+	const char* data = "HTTP1.1 200 OK{"
+		"\"light\": \"on\","
+		"\"fan\" : \"off\","
+		"\"motor\" : \"off\"}";
+
+	smartHome_t x = pair_data(data);
+	printf("Light: %c\n", x.light);
+	printf("Fan  : %c\n", x.fan);
+	printf("Motor: %c\n", x.motor);
 	return 0;
 }
